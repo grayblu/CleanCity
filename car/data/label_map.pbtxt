@@ -1,0 +1,24 @@
+item {
+  name: 'red'
+  id: 1
+}
+item {
+  name: 'green'
+  id: 2
+}
+item {
+  name: 'yellow'
+  id: 3
+}
+item {
+  name: 'left'
+  id: 4
+}
+item {
+  name: 'stop'
+  id: 5
+}
+item {
+  name: 'trash'
+  id: 6
+}

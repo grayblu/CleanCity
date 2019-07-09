@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="multi.campus.clean.dao.GarbageCollectionDao">
+	
+	<select id="count" resultType="int">
+		select count(*) from garbage_collection
+	</select>
+	
+	<select id="userCount" parameterType="String" resultType ="int">
+		select count(*) from garbage_collection where userid like #{userid}
+	</select>
+	
+	<select id="regionCount" parameterType="String" resultType="int">
+		select count(*) from garbage_collection where address like #{region}
+	</select>
+	
+	<select id="getPage" resultType="garbageCollection">
+		select collection_no, userid, cap, address, empty_date
+		from (select row_number() over(order by collection_no desc) as seq, collection_no, userid, cap, address, empty_date from garbage_collection) 
+		where seq between #{start} and #{end}
+	</select>
+	
+	<select id="getUserCollectionPage" resultType="garbageCollection">
+		select collection_no, userid, cap, address, empty_date
+		from (select row_number() over(order by collection_no desc) as seq, collection_no, userid, cap, address, empty_date from garbage_collection where userid like #{userid}) 
+		where seq between #{start} and #{end}
+	</select>
+	
+	<select id="getRegionCollectionPage" resultType="garbageCollection">
+		select collection_no, userid, cap, address, empty_date
+		from (select row_number() over(order by collection_no desc) as seq, collection_no, userid, cap, address, empty_date from garbage_collection where address like #{region}) 
+		where seq between #{start} and #{end}
+	</select>
+	
+	<select id="insert" parameterType="GarbageCollection">
+		insert into garbage_collection (collection_no, userid, address, cap, empty_date) values(collection_seq.nextval, #{userid}, #{address}, #{cap}, sysdate)
+	</select>
+</mapper>
